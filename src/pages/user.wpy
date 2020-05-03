@@ -1,0 +1,36 @@
+<style lang="less">
+.detail-text{
+  padding-left:20px;
+}
+.button {
+  margin-top:30px;
+  display: flex;
+  justify-content: space-around;
+}
+</style>
+
+<template>
+  <div>
+    <van-panel
+      title="车位：华晟大厦"
+      desc="天河区广州市天河五山路1号"
+      status="空闲"
+    >
+      <view class="detail-text">距离：1.3km</view>
+      <view class="detail-text">预计时间：10mins</view>
+      <view class="detail-text">收费标准:10元/小时</view>
+    </van-panel>
+    <div class="button">
+      <van-button size="small" round>预约</van-button>
+      <van-button size="small" type="danger" round>前往</van-button>
+    </div>
+  </div>
+</template>
+<script>
+import wepy from '@wepy/core'
+wepy.page({
+  onSow() {
+    this.getTabbar()
+  }
+})
+</script>

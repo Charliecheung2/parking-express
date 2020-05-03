@@ -1,0 +1,137 @@
+<style lang="less">
+Page {
+  background: #ededed;
+  box-sizing: border-box;
+}
+.container {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  padding-bottom: 90px;
+  background-color: #fff;
+}
+.input {
+  height: 90px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: #eeeeee;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  .img {
+    width: 35px;
+    height: 35px;
+  }
+  .input-field {
+    color: black;
+    background-color: #fff;
+    width: 85%;
+    height: 40px;
+    padding-left: 8px;
+    border-radius: 16px;
+  }
+}
+.page-section-spacing {
+  margin-top: 60rpx;
+}
+.scroll-view_H {
+  white-space: nowrap;
+}
+.scroll-view-item {
+  height: 300rpx;
+  background-color: #fff;
+  border: 1px solid black;
+}
+.scroll-view-item_H {
+  display: inline-block;
+  width: 100%;
+  height: 300rpx;
+}
+</style>
+
+<template>
+  <div>
+    <div class="container">
+      <scroll-view
+        scroll-y="true"
+        style="height: 100%;"
+        bindscrolltoupper="upper"
+        bindscrolltolower="lower"
+        bindscroll="scroll"
+        scroll-into-view="{{toView}}"
+        scroll-top="{{scrollTop}}"
+      >
+
+        <view id="demo1" >
+        <box :isSelf="true" avatar="http://localhost:3002/static/female.png" content="您好，请问有什么可以帮到您的呢？">
+
+        </view>
+        <view id="demo2" >
+        <box :isSelf="false" avatar="http://localhost:3002/static/male.png" content="你好，这边有个订单有个问题">
+
+        </view>
+        <view id="demo3" >
+        <box :isSelf="true" avatar="http://localhost:3002/static/female.png" content="好的，可否提供下订单号呢？">
+
+          </view
+        ><view id="demo4" 
+        
+        ><box :isSelf="false"  avatar="http://localhost:3002/static/male.png" content="O2020032233223"></view>
+        <view id="demo5" >
+        <box :isSelf="true"  avatar="http://localhost:3002/static/female.png" content="稍等一下，马上帮您查询">
+
+        </view>
+        <view id="demo6" >
+        <box :isSelf="false"  avatar="http://localhost:3002/static/male.png" content="好的">
+
+          </view
+        >
+      </scroll-view>
+    </div>
+    <div>
+      <div class="input">
+        <input class="input-field" placeholder="请在此输入" />
+        <image class="img" mode="aspectFit" src="/static/send.png" />
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import wepy from '@wepy/core'
+wepy.page({
+  data: {
+    messages: [
+      {
+        avatar: '',
+        isSelf: true,
+        content: 'hello'
+      },
+      {
+        avatar: '',
+        isSelf: true,
+        content: 'hello'
+      },
+      {
+        avatar: '',
+        isSelf: false,
+        content: '你好啊，你是外国人吗'
+      }
+    ]
+  },
+  onSow() {
+    this.getTabbar()
+  }
+})
+</script>
+<config>
+{
+    navigationBarTitleText: '客服中心',
+    usingComponents: {
+      "van-button": "../components/dist/button/index",
+      "van-icon": "../components/dist/icon/index",
+      "van-field": "../components/dist/field/index",
+      "box":"../components/chat-box"
+    }
+}
+</config>

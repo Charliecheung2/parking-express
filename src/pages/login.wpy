@@ -1,0 +1,359 @@
+<style lang="less">
+Page {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.login-table {
+  height: 100%;
+  width: 100%;
+  .main {
+    position: relative;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    .img {
+      height: 100%;
+      width: 100%;
+    }
+    .button {
+      width: 80%;
+      z-index: 99;
+      position: absolute;
+      left: 50%;
+      bottom: 50px;
+      transform: translate(-50%, 0%);
+    }
+    .login-btn {
+      width: 100%;
+      border-radius: 6px;
+      font-size: 24px;
+      font-weight: 400;
+      color: white;
+      background-color: #47cece;
+    }
+    #register {
+      color: white;
+      font-size: 18px;
+      font-weight: 400;
+      text-align: center;
+    }
+  }
+  .register {
+    margin: 0 auto;
+    .img {
+      height: 160px;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+    .p-input {
+      font-size: 16px;
+      font-weight: 200;
+      color: #c3ced0;
+      border-bottom: 2px solid #072934;
+      margin-bottom: 8px;
+      height: 24px;
+      vertical-align: middle;
+    }
+    .login-btn {
+      width: 80%;
+      border-radius: 4px;
+      font-size: 24px;
+      font-weight: 400;
+      color: white;
+      background-color: #c0cacd;
+      position: absolute;
+      left: 50%;
+      bottom: 50px;
+      transform: translate(-50%, 0%);
+    }
+    .info {
+      margin-top: 20px;
+      text-align: center;
+      color: #c3ced0;
+      font-size: 14px;
+      .rules {
+        color: #47cece;
+      }
+    }
+  }
+  .login {
+    margin: 0 auto;
+    .img {
+      height: 160px;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+    .p-input {
+      font-size: 16px;
+      font-weight: 200;
+      color: #c3ced0;
+      border-bottom: 2px solid #072934;
+      margin-bottom: 8px;
+      height: 24px;
+      vertical-align: middle;
+    }
+    .login-btn {
+      width: 80%;
+      border-radius: 4px;
+      font-size: 24px;
+      font-weight: 400;
+      color: white;
+      background-color: #47cece;
+      position: absolute;
+      left: 50%;
+      bottom: 50px;
+      transform: translate(-50%, 0%);
+    }
+    .info {
+      margin-top: 20px;
+      text-align: center;
+      color: #c3ced0;
+      font-size: 14px;
+      .rules {
+        color: #47cece;
+      }
+    }
+  }
+}
+</style>
+<template>
+  <div class="login-table">
+    <div class="register" v-if="registerFlag">
+      <image
+        mode="center"
+        class="img"
+        src="http://localhost:3002/static/title.jpg"
+      />
+      <van-field
+        value="{{registerInfo.username}}"
+        placeholder="请输入用户名"
+        border="{{ false }}"
+        input-class="p-input"
+        data-key="username"
+        @change="changeRegister"
+      />
+      <van-field
+        value="{{registerInfo.password}}"
+        type="password"
+        placeholder="请输入密码"
+        input-class="p-input"
+        border="{{ false }}"
+        data-key="password"
+        :error="false"
+        :error-message="errorMessage"
+        @change="changeRegister"
+      />
+      <van-field
+        value="{{registerInfo.rePassword}}"
+        type="password"
+        placeholder="再次请输入密码"
+        input-class="p-input"
+        border="{{ false }}"
+        data-key="rePassword"
+        @change="changeRegister"
+        :error-message="retypeMessage"
+      />
+      <van-field
+        value="{{registerInfo.phone}}"
+        type="number"
+        placeholder="请输入手机号码"
+        input-class="p-input"
+        border="{{ false }}"
+        data-key="phone"
+        :maxlength="11"
+        @change="changeRegister"
+      />
+      <van-field
+        value="{{registerInfo.area}}"
+        placeholder="请输入常居地址"
+        input-class="p-input"
+        border="{{ false }}"
+        data-key="area"
+        @change="changeRegister"
+      />
+      <van-field
+        value="{{registerInfo.carNo}}"
+        placeholder="请输入车牌"
+        input-class="p-input"
+        border="{{ false }}"
+        data-key="carNo"
+        @change="changeRegister"
+      />
+      <div class="info">
+        <div>注册即表示你接受</div>
+        <div>
+          本程序的<span class="rules">服务条款</span>和<span class="rules"
+            >隐私条约</span
+          >
+        </div>
+      </div>
+      <van-button @click="registerUser" custom-class="login-btn"
+        >注册</van-button
+      >
+    </div>
+    <div class="login" v-else-if="loginFlag">
+      <image
+        mode="center"
+        class="img"
+        src="http://localhost:3002/static/title.jpg"
+      />
+      <van-field
+        :value="registerInfo.username"
+        placeholder="请输入用户名"
+        input-class="p-input"
+        border="{{ false }}"
+        data-key="username"
+        @change="changeLogin"
+      />
+      <van-field
+        :value="registerInfo.password"
+        type="password"
+        placeholder="请输入密码"
+        input-class="p-input"
+        border="{{ false }}"
+        data-key="password"
+        @change="changeLogin"
+      />
+      <div class="info">
+        <div>登录即表示你接受</div>
+        <div>
+          本程序的<span class="rules">服务条款</span>和<span class="rules"
+            >隐私条约</span
+          >
+        </div>
+      </div>
+      <van-button @click="loginUser" custom-class="login-btn">登录</van-button>
+    </div>
+    <div class="main" v-else>
+      <image
+        class="img"
+        mode="aspectFill"
+        src="http://localhost:3002/static/bgc.jpg"
+      />
+      <div class="button">
+        <van-button @click="goLogin" custom-class="login-btn">登录</van-button>
+        <div @click="goRegister" id="register">或注册</div>
+      </div>
+    </div>
+    <van-toast id="van-toast" />
+  </div>
+</template>
+<script>
+import wepy from '@wepy/core';
+import { login, register } from '../api/api';
+import Toast from '../components/dist/toast/toast';
+
+wepy.page({
+  data: {
+    loginFlag: true,
+    registerFlag: false,
+    registerInfo: {
+      username: '',
+      password: '',
+      rePassword: '',
+      phone: null,
+      area: '',
+      carNo: '',
+    },
+    loginInfo: {
+      username: '',
+      password: '',
+    },
+    registe: '',
+    errorMessage: '',
+    retypeMessage: '',
+  },
+  onShow() {},
+  methods: {
+    hello() {
+      // list().then((res) => {
+      //   console.log(res)
+      // })
+    },
+    login() {
+      const user = this.loginInfo;
+      login(user).then((res) => {
+        console.log(res);
+      });
+    },
+    goRegister() {
+      this.register = true;
+    },
+    goLogin() {
+      this.login = true;
+    },
+    async registerUser() {
+      // if(this)
+      if (this.registerInfo.password !== this.registerInfo.rePassword) {
+        this.retypeMessage = '两次密码不一致';
+        return;
+      } else {
+        this.retypeMessage = '';
+      }
+      let params = {
+        data: this.registerInfo,
+        method: 'POST',
+      };
+      const user = this.registerInfo;
+      await register(params).then((res) => {
+        if (res.code === '0000') {
+          Toast(res.msg);
+          this.login = true;
+          this.register = false;
+        } else {
+          Toast(res.msg);
+        }
+      });
+    },
+    async loginUser() {
+      let params = {
+        data: this.loginInfo,
+        method: 'POST',
+      };
+      await login(params).then((res) => {
+        if (res.code === '0000') {
+          Toast(res.msg);
+          let globalData = this.$app.$options.globalData;
+          globalData.user = res.user;
+          globalData.token = res.token;
+          wx.switchTab({
+            url: 'find',
+          });
+        } else {
+          Toast(res.msg);
+        }
+      });
+    },
+    changeLogin(e) {
+      let target = e.$wx;
+      let key = target.target.dataset.key;
+      let value = target.detail;
+      this.loginInfo[key] = value;
+    },
+    changeRegister(e) {
+      let target = e.$wx;
+      let key = target.target.dataset.key;
+      if (key === 'password') {
+        this.registerInfo.password.length <= 7
+          ? (this.errorMessage = '密码长度要在8位以上')
+          : (this.errorMessage = '');
+      }
+      let value = target.detail;
+      this.registerInfo[key] = value;
+    },
+  },
+});
+</script>
+<config>
+{
+    navigationBarTitleText: '登录/注册',
+    usingComponents: {
+      "van-button": "../components/dist/button/index",
+      "van-icon": "../components/dist/icon/index",
+      "van-field": "../components/dist/field/index",
+      "van-image": "../components/dist/image/index",
+      "van-toast": "../components/dist/toast/index",
+    }
+}
+</config>

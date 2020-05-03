@@ -1,0 +1,82 @@
+<style lang="less">
+</style>
+<template>
+  <div class="container">
+    <van-tabbar active="{{ active }}" @tap="onChange">
+      <van-tabbar-item
+        wx:for="{{ list }}"
+        wx:key="index"
+        icon="{{ item.icon }}"
+        data-url="{{item.url}}"
+        >{{ item.text }}</van-tabbar-item
+      >
+    </van-tabbar>
+  </div>
+</template>
+
+<script>
+import wepy from '@wepy/core'
+
+wepy.page({
+  config: {
+    navigationBarTitleText: 'test'
+  },
+
+  hooks: {
+    // Page 级别 hook, 只对当前 Page 的 setData 生效。
+    'before-setData': function(dirty) {
+      if (Math.random() < 0.2) {
+        console.log('setData canceled')
+        return false // Cancel setData
+      }
+      dirty.time = +new Date()
+      return dirty
+    }
+  },
+  data: {
+    active: 0,
+    list: [
+      {
+        icon: 'search',
+        text: '查找车位',
+        url: '/pages/find'
+      },
+      {
+        icon: 'friends-o',
+        text: '论坛',
+        url: '/pages/forum'
+      },
+      {
+        icon: 'user-o',
+        text: '用户中心',
+        url: '/pages/user'
+      }
+    ]
+  },
+
+  computed: {},
+
+  methods: {
+    onChange(event) {
+      console.log(event)
+
+      // this.setData({ active: event.detail })
+      this.active = event.detail
+      wx.switchTab({
+        url: event.target.dataset.url
+      })
+    }
+  },
+
+  created() {}
+})
+</script>
+<config>
+{   
+    component:true,
+    usingComponents: {
+      "van-tabbar": "../components/dist/tabbar/index",
+      "van-tabbar-item": "../components/dist/tabbar-item/index",
+    }
+}
+</config>

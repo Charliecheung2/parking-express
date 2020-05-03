@@ -1,0 +1,122 @@
+<style lang="less">
+.box {
+  width: 100%;
+  .left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: top;
+    padding: 10px;
+    .avatar {
+      margin: 5px;
+    }
+    .text {
+      background: #eeeeee;
+      color: black;
+      padding: 5px;
+      font-size: 18px;
+      line-height: 18px;
+      word-break: break-all;
+      vertical-align: middle;
+      border-radius: 5px;
+      position: relative;
+      &::after {
+        content: '';
+        display: block;
+        height: 16px;
+        width: 9px;
+        position: absolute;
+        bottom: -6.5px;
+        background-color: #eeeeee;
+        left: 10px;
+        transform: rotate(62deg) skew(-5deg);
+      }
+    }
+  }
+  .right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: top;
+    padding: 10px;
+    .avatar {
+      margin-left: 5px;
+    }
+    .text {
+      color: white;
+      background-color: #74b9ff;
+      padding: 5px;
+      font-size: 18px;
+      line-height: 18px;
+      vertical-align: middle;
+      word-break: break-all;
+      border-radius: 5px;
+      position: relative;
+      &::after {
+        content: '';
+        display: block;
+        height: 16px;
+        width: 9px;
+        position: absolute;
+        bottom: -6.5px;
+        background-color: #74b9ff;
+        right: 10px;
+        transform: rotate(118deg) skew(-5deg);
+      }
+    }
+  }
+}
+</style>
+<template>
+  <div class="box">
+    <div class="left" v-if="isSelf">
+      <van-image
+        custom-class="avatar"
+        round
+        width="3rem"
+        height="3rem"
+        fit="cover"
+        :src="avatar"
+      />
+      <div class="text">{{ content }}</div>
+    </div>
+    <div class="right" v-else>
+      <div class="text">{{ content }}</div>
+      <van-image
+        round
+        custom-class="avatar"
+        width="3rem"
+        fit="cover"
+        height="3rem"
+        :src="avatar"
+      />
+    </div>
+  </div>
+</template>
+<script>
+import wepy from '@wepy/core'
+// import GroupItem from './groupitem'
+
+wepy.component({
+  props: {
+    isSelf: Boolean,
+    avatar: String,
+    content: String
+  },
+  data: {
+    left: null
+  },
+  mounted() {
+    this.setData({
+      left: isSelf
+    })
+  },
+  methods: {}
+})
+</script>
+<config>
+{
+  usingComponents: {
+    "van-image": "../components/dist/image/index",
+
+  }
+}
+</config>

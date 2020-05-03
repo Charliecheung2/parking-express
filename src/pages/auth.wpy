@@ -1,0 +1,189 @@
+<style lang="less">
+Page {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+.auth {
+  .register {
+    margin: 0 auto;
+    .img {
+      height: 160px;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+    .p-input {
+      font-size: 16px;
+      font-weight: 200;
+      color: #c3ced0;
+      border-bottom: 2px solid #072934;
+      margin-bottom: 8px;
+      height: 24px;
+      vertical-align: middle;
+    }
+    .upload-text{
+      margin-left: 15px;
+    }
+    .upload{
+      margin:15px 0 0 15px;
+    }
+    .button-group {
+      width: 70%;
+      position: absolute;
+      left: 50%;
+      bottom: 50px;
+      transform: translate(-50%, 0%);
+      display: flex;
+      justify-content: space-around;
+      .cancel {
+        color: white;
+        background-color: #d3d3d3;
+        border-radius: 6px;
+        font-size: 24px;
+      }
+      .confirm {
+        color: white;
+        background-color: #44c060;
+        border-radius: 6px;
+        font-size: 24px;
+      }
+    }
+    .login-btn {
+      width: 80%;
+      border-radius: 4px;
+      font-weight: 400;
+      color: white;
+      background-color: #c0cacd;
+    }
+    .info {
+      margin-top: 50px;
+      text-align: center;
+      color: #c3ced0;
+      font-size: 14px;
+      .rules {
+        color: #47cece;
+      }
+    }
+  }
+}
+</style>
+
+<template>
+  <div class="auth">
+    <div class="register" v-if="enterprise">
+      <image
+        mode="center"
+        class="img"
+        src="http://localhost:3002/static/title.jpg"
+      />
+      <van-field
+        :value="registerInfo.userName"
+        placeholder="请输入企业全名"
+        border="{{ false }}"
+        input-class="p-input"
+      />
+      <van-field
+        :value="registerInfo.password"
+        type="password"
+        placeholder="请输入停车场地址"
+        input-class="p-input"
+        border="{{ false }}"
+      />
+      <van-field
+        :value="registe"
+        placeholder="请输入企业社会信用代码"
+        input-class="p-input"
+        border="{{ false }}"
+      />
+      <van-field
+        :value="registerInfo.carNo"
+        placeholder="请输入法人名字"
+        input-class="p-input"
+        border="{{ false }}"
+      />
+      <van-field
+        :value="registerInfo.carNo"
+        placeholder="请输入法人身份证号码"
+        input-class="p-input"
+        border="{{ false }}"
+      />
+      <div class="upload-text">此处上传企业经营性停车许可证</div>
+      <div class="upload">
+      <van-uploader upload-icon="photo" file-list="{{ fileList }}" bind:after-read="afterRead" />
+
+      </div>
+      <div class="info">
+        <div>以上信息均仅用为</div>
+        <div>
+          本程序的<span class="rules">审核</span>作用，我们会保护您的个人信息。
+        </div>
+      </div>
+      <div class="button-group">
+        <van-button @click="hello" custom-class="cancel">取消</van-button>
+        <van-button @click="hello" custom-class="confirm">确定</van-button>
+      </div>
+    </div>
+    <div class="register" v-else>
+      <image
+        mode="center"
+        class="img"
+        src="http://localhost:3002/static/title.jpg"
+      />
+      <van-field
+        :value="registerInfo.userName"
+        placeholder="请输入用户名"
+        border="{{ false }}"
+        input-class="p-input"
+      />
+      <van-field
+        :value="registerInfo.password"
+        type="password"
+        placeholder="请输入密码"
+        input-class="p-input"
+        border="{{ false }}"
+      />
+      <van-field
+        :value="registe"
+        placeholder="请输入常居地址"
+        input-class="p-input"
+        border="{{ false }}"
+      />
+      <van-field
+        :value="registerInfo.carNo"
+        placeholder="请输入车牌"
+        input-class="p-input"
+        border="{{ false }}"
+      />
+      <div class="info">
+        <div>以上信息均仅用为</div>
+        <div>
+          本程序的<span class="rules">审核</span>作用，我们会保护您的个人信息。
+        </div>
+      </div>
+      <van-button @click="hello" custom-class="login-btn">取消</van-button>
+      <van-button @click="hello" custom-class="login-btn">确定</van-button>
+    </div>
+  </div>
+</template>
+<script>
+import wepy from '@wepy/core'
+wepy.page({
+  data: {
+    enterprise: true,
+    personal: false
+  },
+  onSow() {}
+})
+</script>
+<config>
+{
+    navigationBarTitleText: '实名认证',
+    usingComponents: {
+      "van-button": "../components/dist/button/index",
+      "van-icon": "../components/dist/icon/index",
+      "van-field": "../components/dist/field/index",
+      "van-panel": "../components/dist/panel/index",
+      "van-uploader": "../components/dist/uploader/index",
+    }
+}
+</config>
