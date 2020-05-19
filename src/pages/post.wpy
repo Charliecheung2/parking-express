@@ -1,0 +1,100 @@
+<style lang="less">
+Page {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+.post{
+  .button{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+</style>
+
+<template>
+  <div class="post">
+    <div class="field">
+      <van-cell-group>
+        <van-field
+          label="标题"
+          value="{{ value }}"
+          placeholder="请输入帖子标题"
+          border="{{ false }}"
+          data-key="title"
+          @change="onChange"
+        />
+        <van-field
+          value="{{ message }}"
+          label="内容"
+          type="textarea"
+          placeholder="请输入内容"
+          autosize
+          maxlength="{{300}}"
+          border="{{ false }}"
+          data-key="body"
+          @change="onChange"
+        />
+      </van-cell-group>
+    </div>
+    <div class="button">
+      <van-button @click="goBack" type="danger">取消</van-button>
+      <van-button @click="post" type="primary">确定</van-button>
+    </div>
+  </div>
+</template>
+<script>
+import wepy from '@wepy/core';
+import { addPost } from '../api/api';
+
+wepy.page({
+  data: {
+    post:{
+      title:'',
+      body:''
+    }
+  },
+  methods:{
+    onChange(e){
+      let data=e.$wx
+      let {detail}=data
+      let key=data.target.dataset.key
+      this.post[key]=detail
+    },
+    goBack(){
+      wx.navigateBack()
+    },
+    async post(){
+      console.log('1111');
+      let params={}
+      params.method='POST'
+      let globalData = this.$app.$options.globalData;
+      console.log(globalData.user);
+      
+      params.data={
+        title:this.post.title,
+        body:this.post.body,
+        author:globalData.user._id
+      }
+      await addPost(params).then(res=>{
+        if(res.code==="0000"){
+          wx.navigateBack()
+        }
+      })
+    }
+  }
+});
+</script>
+<config>
+{
+    navigationBarTitleText: '发布帖子',
+    usingComponents: {
+      "van-button": "../components/dist/button/index",
+      "van-icon": "../components/dist/icon/index",
+      "van-field": "../components/dist/field/index",
+      "van-cell-group": "../components/dist/cell-group/index",
+      "van-cell": "../components/dist/cell/index",
+    }
+}
+</config>

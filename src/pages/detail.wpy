@@ -22,7 +22,7 @@ Page {
     .panel {
       font-size: 20px;
     }
-    .inner-text{
+    .inner-text {
       font-size: 18px;
       padding: 5px 5px 5px 20px;
     }
@@ -81,18 +81,22 @@ Page {
 
     <div class="button-area">
       <van-button custom-class="pre-order">预约</van-button>
-      <van-button custom-class="go-parking">前往</van-button>
+      <van-button custom-class="go-parking" @click="goParking">前往</van-button>
     </div>
   </div>
 </template>
 <script>
-import wepy from '@wepy/core'
-import { getSpace } from '../api/api';
+import wepy from '@wepy/core';
+import { getSpace, begin } from '../api/api';
 
 wepy.page({
   data: {
-    longitude:null,
-    latitude:null,
+    longitude: null,
+    latitude: null,
+    location: {
+      latitude: null,
+      longitude: null,
+    },
     markers: [
       {
         iconPath: '/static/parking2.png',
@@ -102,37 +106,83 @@ wepy.page({
           content: '',
           display: 'ALWAYS',
           fontSize: 16,
-          borderRadius: 3
+          borderRadius: 3,
         },
         width: 37,
         height: 37,
-        id: null
-      }
+        id: null,
+      },
     ],
-    space:{
-
-    }
+    space: {},
   },
-  onLoad(e){
+  onLoad(e) {
     console.log(e);
-    let params={
-      method:'GET',
-      data:{
-        markerid:e.markerid
-      }
-    }
-    getSpace(params).then(data=>{
-      let space=data.space
-      this.space=space
-      this.longitude=space.longitude
-      this.latitude=space.latitude
-      this.markers[0].longitude=space.longitude
-      this.markers[0].latitude=space.latitude
-      this.markers[0].callout.content=space.address
-      this.markers[0].id=space._id
-    })
-  }
-})
+    let params = {
+      method: 'GET',
+      data: {
+        markerid: e.markerid,
+      },
+    };
+    getSpace(params).then((data) => {
+      let space = data.space;
+      this.space = space;
+      this.longitude = space.longitude;
+      this.latitude = space.latitude;
+      this.markers[0].longitude = space.longitude;
+      this.markers[0].latitude = space.latitude;
+      this.markers[0].callout.content = space.address;
+      this.markers[0].id = space._id;
+    });
+    let that = this;
+    wx.getLocation({
+      isHighAccuracy: true,
+      success(e) {
+        that.location = {
+          latitude: e.latitude,
+          longitude: e.longitude,
+        };
+      },
+    });
+  },
+  methods: {
+    async goParking() {
+      let globalData = this.$app.$options.globalData;
+      console.log(globalData);
+      
+      let params = {
+        method: 'POST',
+        data: {
+          id: this.space._id,
+          userId:'5e9ffba058daf7e9e2592e5a'
+        },
+      };
+      await begin(params);
+      globalData.driving=true
+      globalData.space=this.space
+      let plugin = requirePlugin('routePlan');
+      let key = 'CI7BZ-ZIJLP-5KYDE-LVCZW-GSZDT-OZFWD'; //使用在腾讯位置服务申请的key
+      let referer = '智能私家车位共享'; //调用插件的app的名称
+      let endPoint = JSON.stringify({
+        //终点
+        name: this.markers[0].callout.content,
+        latitude: this.markers[0].latitude,
+        longitude: this.markers[0].longitude
+      });
+      console.log(endPoint);
+
+      wx.navigateTo({
+        url:
+          'plugin://routePlan/index?key=' +
+          key +
+          '&referer=' +
+          referer +
+          '&endPoint=' +
+          endPoint+
+          '&navigation='+1,
+      });
+    },
+  },
+});
 </script>
 <config>
 {

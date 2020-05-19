@@ -1,17 +1,66 @@
 <style lang="less">
-.detail-text{
-  padding-left:20px;
+Page {
+  height: 100%;
+}
+.order {
+  .detail {
+    font-size: 18px;
+  }
+  .desc {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+}
+.status {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 .button {
-  margin-top:30px;
-  display: flex;
-  justify-content: space-around;
+  width: 100%;
+  position: absolute;
+  bottom: 40px;
+  text-align: center;
+  .cancel-btn {
+    width: 80%;
+    border-radius: 15px;
+  }
 }
 </style>
 
 <template>
   <div>
-    <van-panel
+    <div class="order">
+      <van-card
+        desc="广东省广州市天河区员村二横路"
+        title="成龙花园 E45"
+        custom-class="detail"
+        desc-class="desc"
+      />
+    </div>
+    <div>
+      <div v-if="isDriving" class="status">
+        <image
+          mode="center"
+          class="img"
+          src="http://localhost:3002/static/driving.png"
+        />
+        <div class="order-status">当前状态：前往目的地</div>
+      </div>
+      <div v-else  class="status">
+        <image
+          mode="center"
+          class="img"
+          src="http://localhost:3002/static/parking.png"
+        />
+        <div class="order-status">当前状态：停车中</div>
+      </div>
+    </div>
+    <div class="button">
+      <van-button type="danger" custom-class="cancel-btn" disabled="{{!isDriving}}">取消订单</van-button>
+    </div>
+    <!-- <van-panel
       title="车位：华晟大厦"
       desc="天河区广州市天河五山路1号"
       status="空闲"
@@ -23,14 +72,45 @@
     <div class="button">
       <van-button size="small" round>预约</van-button>
       <van-button size="small" type="danger" round>前往</van-button>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
-import wepy from '@wepy/core'
+import wepy from '@wepy/core';
 wepy.page({
-  onSow() {
-    this.getTabbar()
-  }
-})
+  data: {
+    isDriving: true,
+  },
+  methods: {},
+  onLoad() {
+    wx.connectSocket({
+      url: 'ws://localhost:8111?id=5e9ffba058daf7e9e2592e5a',
+    });
+    wx.onSocketOpen((res) => {
+      setInterval(() => {
+        console.log('正在检测传感器状态');
+        wx.sendSocketMessage({
+          data: 'sensor:5eaeccb94c8b09504cf82feb',
+        });
+      }, 1000);
+    });
+    wx.onSocketMessage((res) => {
+      let status = res.data;
+      if(status==="2"){
+        this.isDriving=false
+      }else{
+        this.isDriving=true
+      }
+    });
+  },
+});
 </script>
+<config>
+{
+    navigationBarTitleText: '停车位详情',
+    usingComponents: {
+      "van-card": "../components/dist/card/index",
+      "van-button": "../components/dist/button/index",
+    }
+}
+</config>

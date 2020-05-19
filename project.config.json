@@ -22,7 +22,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"appid": "wx0b5703ed22bb9a2f",
+	"appid": "wx53b84c1944af6860",
 	"projectname": "parking",
 	"miniprogramRoot": "weapp/",
 	"simulatorType": "wechat",
@@ -62,7 +62,7 @@
 					"id": 1,
 					"name": "pages/detail",
 					"pathName": "pages/detail",
-					"query": "markerid=5ea3c5106926705cb6170750",
+					"query": "markerid=5ea3c5ac6926705cb6170751",
 					"scene": null
 				},
 				{
@@ -91,6 +91,26 @@
 					"name": "login",
 					"pathName": "pages/login",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/order",
+					"pathName": "pages/order",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "user",
+					"pathName": "pages/user",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/post",
+					"pathName": "pages/post",
 					"scene": null
 				}
 			]

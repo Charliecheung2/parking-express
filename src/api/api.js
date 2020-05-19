@@ -17,10 +17,16 @@ const list = (params) => wxRequest(params, `${baseUrl}/list`);
 const register = (params) => wxRequest(params, `${baseUrl}/register`);
 const getSpaces = (params) => wxRequest(params, `${baseUrl}/spaces`);
 const getSpace = (params) => wxRequest(params, `${baseUrl}/space`);
+const begin = (params) => wxRequest(params, `${baseUrl}/space/begin`);
+const addPost = (params) => wxRequest(params, `${baseUrl}/posts/add`);
+const getPost = (params) => wxRequest(params, `${baseUrl}/posts/get`);
 module.exports = {
   login,
   list,
   register,
   getSpaces,
-  getSpace
+  getSpace,
+  begin,
+  addPost,
+  getPost
 };

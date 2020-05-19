@@ -36,17 +36,27 @@ Page {
           height: 35px;
           margin: 8px;
         }
-        .title{
+        .title {
           font-size: 20px;
           font-weight: 400;
         }
       }
-      .summary{
-        padding-left:12px;
+      .summary {
+        padding-left: 12px;
         color: #d3d3d3;
         font-size: 14px;
       }
     }
+  }
+}
+.add {
+  position: absolute;
+  right: 30px;
+  bottom: 50px;
+  z-index: 99;
+  .img {
+    width: 60px;
+    height: 60px;
   }
 }
 </style>
@@ -102,8 +112,8 @@ Page {
             </div>
 
             <div class="summary">好像很多城市都解封得差不多了</div>
-          </div>
-        </view><view id="demo1" class="article-item">
+          </div> </view
+        ><view id="demo1" class="article-item">
           <div class="article">
             <div class="user">
               <van-image
@@ -116,8 +126,8 @@ Page {
             </div>
 
             <div class="summary">示例内容</div>
-          </div>
-        </view><view id="demo1" class="article-item">
+          </div> </view
+        ><view id="demo1" class="article-item">
           <div class="article">
             <div class="user">
               <van-image
@@ -130,8 +140,8 @@ Page {
             </div>
 
             <div class="summary">示例内容</div>
-          </div>
-        </view><view id="demo1" class="article-item">
+          </div> </view
+        ><view id="demo1" class="article-item">
           <div class="article">
             <div class="user">
               <van-image
@@ -147,14 +157,32 @@ Page {
           </div>
         </view>
       </scroll-view>
+      <div class="add">
+        <image class="img" @click="goToPost" src="http://localhost:3002/static/plus.png" />
+      </div>
     </div>
   </div>
 </template>
 <script>
-import wepy from '@wepy/core'
+import wepy from '@wepy/core';
+import { getPost } from '../api/api';
+
 wepy.page({
-  onSow() {}
-})
+  data:{},
+  async onShow(){
+    await getPost().then(res=>{
+      console.log(res);
+      
+    })
+  },
+  methods:{
+    goToPost(){
+      wx.navigateTo({
+        url:'post'
+      })
+    }
+  }
+});
 </script>
 
 <config>

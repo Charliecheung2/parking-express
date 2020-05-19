@@ -59,6 +59,7 @@ wepy.page({
     longitude: null,
     latitude: null,
     isLogin: true,
+    isDriving:false,
     markers: [
       {
         iconPath: '/static/point.png',
@@ -88,10 +89,16 @@ wepy.page({
   },
   onShow() {
     console.log(this.$app.$options.globalData);
+    console.log("我回来了");
     if (this.$app.$options.globalData.user) {
       this.isLogin = true;
     } else {
       this.isLogin = false;
+    }
+    if(this.$app.$options.globalData.driving){
+      wx.navigateTo({
+        url: 'order',
+      });
     }
   },
   methods: {

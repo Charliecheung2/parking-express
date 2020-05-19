@@ -62,67 +62,70 @@ Page {
         scroll-into-view="{{toView}}"
         scroll-top="{{scrollTop}}"
       >
-
         <view id="demo1" >
-        <box :isSelf="true" avatar="http://localhost:3002/static/female.png" content="您好，请问有什么可以帮到您的呢？">
+        <box v-for="(item,i) in messages" :key="i" :isSelf="item.isSelf" :avatar="item.avatart" :content="item.content">
 
         </view>
-        <view id="demo2" >
-        <box :isSelf="false" avatar="http://localhost:3002/static/male.png" content="你好，这边有个订单有个问题">
-
-        </view>
-        <view id="demo3" >
-        <box :isSelf="true" avatar="http://localhost:3002/static/female.png" content="好的，可否提供下订单号呢？">
-
-          </view
-        ><view id="demo4" 
-        
-        ><box :isSelf="false"  avatar="http://localhost:3002/static/male.png" content="O2020032233223"></view>
-        <view id="demo5" >
-        <box :isSelf="true"  avatar="http://localhost:3002/static/female.png" content="稍等一下，马上帮您查询">
-
-        </view>
-        <view id="demo6" >
-        <box :isSelf="false"  avatar="http://localhost:3002/static/male.png" content="好的">
-
-          </view
-        >
       </scroll-view>
     </div>
     <div>
       <div class="input">
-        <input class="input-field" placeholder="请在此输入" />
-        <image class="img" mode="aspectFit" src="/static/send.png" />
+        <input
+          :value="message"
+          class="input-field"
+          placeholder="请在此输入"
+          bind:change="inputMessage"
+        />
+        <image
+          class="img"
+          mode="aspectFit"
+          src="/static/send.png"
+          @click="send"
+        />
       </div>
     </div>
   </div>
 </template>
 <script>
-import wepy from '@wepy/core'
+import wepy from '@wepy/core';
 wepy.page({
   data: {
-    messages: [
-      {
-        avatar: '',
-        isSelf: true,
-        content: 'hello'
-      },
-      {
-        avatar: '',
-        isSelf: true,
-        content: 'hello'
-      },
-      {
-        avatar: '',
-        isSelf: false,
-        content: '你好啊，你是外国人吗'
-      }
-    ]
+    messages: [],
+    message: '',
+    socket:null
   },
-  onSow() {
-    this.getTabbar()
-  }
-})
+  onLoad() {
+    
+  },
+  methods: {
+    inputMessage(e) {
+      let value = e.$wx.detail.value;
+      this.message=value
+    },
+    send() {
+      this.messages.push({
+        isSelf:false,
+        avatar:'http://localhost:3002/static/male.png',
+        content:this.message
+      })
+      let message = this.message;
+      wx.connectSocket({
+      url: 'ws://localhost:8111?from=5e9ffba058daf7e9e2592e5a',
+    });
+    wx.onSocketMessage((res) => {
+      let message = res.data;
+      console.log(status);
+    });
+      wx.onSocketOpen((res) => {
+        wx.sendSocketMessage({
+          data: `message:5eb0ccf8398cde439e0cb450:${message}`,
+        });
+      });
+      this.message=''
+
+    },
+  },
+});
 </script>
 <config>
 {

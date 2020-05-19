@@ -1,0 +1,42 @@
+@appUrl=http://127.0.0.1:3002/weapp/api
+@adminUrl=http://127.0.0.1:3002/admin/api
+@json=Content-Type: application/json
+###
+get {{appUrl}}/test
+###
+post {{appUrl}}/register
+{{json}}
+
+{
+  "username":"user2",
+  "password":"xdxssesettfff"
+}
+###
+GET 
+{{json}}
+
+User-Agent:api-client/0.1.3 com.douban.frodo/6.32.1
+Connection:keep-alive
+
+###
+
+###
+post {{appUrl}}/login
+{{json}}
+
+{
+  "username":"user2",
+  "password":"123456"
+}
+
+###
+get {{appUrl}}/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlN2FjYzAyNGRmYTRlMTQ1ZTY2YzhmMSIsImlhdCI6MTU4NTEwNjg3MH0.JcMM_zLyzp1DLlz4EqYIs6sFzY1yxPABQ4LWN8sAYqg
+
+###
+get {{appUrl}}/question1.zip
+
+###
+get {{appUrl}}/download
+###
+get {{adminUrl}}/users

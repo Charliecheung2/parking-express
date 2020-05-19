@@ -246,7 +246,7 @@ import Toast from '../components/dist/toast/toast';
 
 wepy.page({
   data: {
-    loginFlag: true,
+    loginFlag: false,
     registerFlag: false,
     registerInfo: {
       username: '',
@@ -278,10 +278,10 @@ wepy.page({
       });
     },
     goRegister() {
-      this.register = true;
+      this.registerFlag = true;
     },
     goLogin() {
-      this.login = true;
+      this.loginFlag = true;
     },
     async registerUser() {
       // if(this)

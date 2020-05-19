@@ -1,36 +1,81 @@
 <style lang="less">
-.detail-text{
-  padding-left:20px;
+.avatar{
+  width:100%;
+  text-align: center;
+  .img{
+    margin:30px auto;
+    width:50px;
+    height:50px;
+  }
 }
-.button {
-  margin-top:30px;
-  display: flex;
-  justify-content: space-around;
+.contact{
+  position: relative;
+  top:80px;
+  .img{
+    width:50px;
+    height:50px;
+    position: absolute;
+    right:20px;
+    background-color: #d3d3d3;
+    border-radius: 50%;
+    padding: 10px;
+  }
 }
 </style>
 
 <template>
   <div>
-    <van-panel
-      title="车位：华晟大厦"
-      desc="天河区广州市天河五山路1号"
-      status="空闲"
-    >
-      <view class="detail-text">距离：1.3km</view>
-      <view class="detail-text">预计时间：10mins</view>
-      <view class="detail-text">收费标准:10元/小时</view>
-    </van-panel>
-    <div class="button">
-      <van-button size="small" round>预约</van-button>
-      <van-button size="small" type="danger" round>前往</van-button>
+    <div class="avatar">
+      <image
+        class="img"
+        src="http://localhost:3002/static/avatar.png"
+      />
+    </div>
+    <div class="info">
+      <van-cell-group>
+        <van-cell title="用户名" value="zhang" />
+        <van-cell title="手机号码" value="13228463738" />
+        <van-cell title="地址" value="广东省广州市天河区员村街道" />
+        <van-cell title="订单" value="所有订单" />
+        <van-cell title="实名状态" value="已实名" @click="goAuth"/>
+        <van-cell title="车牌" value="粤AD8273" />
+        <van-cell title="投诉建议" />
+      </van-cell-group>
+    </div>
+    <div class="contact" @click="goConsult">
+      <image
+        class="img"
+        src="http://localhost:3002/static/consult.png"
+      />
     </div>
   </div>
 </template>
 <script>
-import wepy from '@wepy/core'
+import wepy from '@wepy/core';
 wepy.page({
-  onSow() {
-    this.getTabbar()
+  methods:{
+    goConsult(){
+      wx.navigateTo({
+        url:'chat'
+      })
+    },
+    goAuth(){
+      wx.navigateTo({
+        url:'auth'
+      })
+    }
   }
-})
+});
 </script>
+<config>
+{
+    navigationBarTitleText: '登录/注册',
+    usingComponents: {
+      "van-button": "../components/dist/button/index",
+      "van-icon": "../components/dist/icon/index",
+      "van-cell": "../components/dist/cell/index",
+      "van-cell-group": "../components/dist/cell-group/index",
+      "van-toast": "../components/dist/toast/index",
+    }
+}
+</config>

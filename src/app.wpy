@@ -90,6 +90,7 @@ wepy.app({
       'pages/chat',
       'pages/forum',
       'pages/user',
+      'pages/post',
       'pages/order',
     ],
     window: {
